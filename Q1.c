@@ -16,7 +16,7 @@ int main()
     int fd1[2];  // Used to store two ends of first pipe 
     int fd2[2];  // Used to store two ends of second pipe 
   
-    char fixed_str[] = "The sum of even digits in the input number:”; 
+    char fixed_str[] = "The sum of even digits in the input number:" ; 
     char input_str[100]; 
     pid_t p; 
   
@@ -69,14 +69,28 @@ int main()
     { 
         close(fd1[1]);  // Close writing end of first pipe 
   
-        // Read a string using first pipe 
+
+	// Read a string using first pipe 
         char concat_str[100]; 
         read(fd1[0], concat_str, 100); 
+        
+	// calculate sum of the even numbers
+	int input_int[100];
+	int sum_of_evens = 0;
+	int i = 0;
+	while(concat_str[i] != '\0'){
+		input_int[i] = concat_str[i]-'0';
+		if(input_int[i] % 2 == 0){
+			sum_of_evens += input_int[i];
+		}
+		i++;
+	}
+	printf("\n%d\n",sum_of_evens);
   
         // Concatenate a fixed string with it 
         int k = strlen(concat_str); 
-        int i; 
-        for (i=0; i<strlen(fixed_str); i++) 
+        //int i = 0; 
+        for (int i=0; i<strlen(fixed_str); i++) 
             concat_str[k++] = fixed_str[i]; 
   
         concat_str[k] = '\0';   // string ends with '\0' 
