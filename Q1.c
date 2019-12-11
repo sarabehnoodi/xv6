@@ -60,7 +60,7 @@ int main()
         // Read string from child, print it and close 
         // reading end. 
         read(fd2[0], concat_str, 100); 
-        printf("Concatenated string %s\n", concat_str); 
+        printf("%s\n", concat_str); 
         close(fd2[0]); 
     } 
   
@@ -77,6 +77,8 @@ int main()
 	// calculate sum of the even numbers
 	int input_int[100];
 	int sum_of_evens = 0;
+	char sum_char[10];
+	int s;
 	int i = 0;
 	while(concat_str[i] != '\0'){
 		input_int[i] = concat_str[i]-'0';
@@ -85,16 +87,22 @@ int main()
 		}
 		i++;
 	}
-	printf("\n%d\n",sum_of_evens);
+	s = sum_of_evens;
+	
+	tostring(sum_char,sum_of_evens);			
+	//printf("\n%d\n",sum_of_evens);
   
         // Concatenate a fixed string with it 
         int k = strlen(concat_str); 
         //int i = 0; 
         for (int i=0; i<strlen(fixed_str); i++) 
             concat_str[k++] = fixed_str[i]; 
-  
-        concat_str[k] = '\0';   // string ends with '\0' 
-  
+	concat_str[k] = '\0'; 
+	int t =strlen(concat_str);
+  	for (int i = 0; i<strlen(concat_str);i++)
+		concat_str[t++] = sum_char[i];
+          // string ends with '\0' 
+  	concat_str[t] = '\0'; 
         // Close both reading ends 
         close(fd1[0]); 
         close(fd2[0]); 
@@ -105,5 +113,24 @@ int main()
   
         exit(0); 
     } 
+}
+
+void tostring(char str[], int num)
+{
+    int i, rem, len = 0, n;
+ 
+    n = num;
+    while (n != 0)
+    {
+        len++;
+        n /= 10;
+    }
+    for (i = 0; i < len; i++)
+    {
+        rem = num % 10;
+        num = num / 10;
+        str[len - (i + 1)] = rem + '0';
+    }
+    str[len] = '\0';
 } 
 
